@@ -117,12 +117,8 @@ Keypad::stop
         _cols[i++]->write(0);
 }
 
-void
-Keypad::attach
-(uint32_t     (*fptr)(uint32_t index)
-)
-{
-    _callback.attach(fptr);
+void Keypad::attach(mbed::Callback<void(uint32_t)> cb) {
+    _callback = cb;
 }
 
 void
@@ -145,7 +141,7 @@ Keypad::_checkIndex
     }
     
     int index = row * _nCol + c;
-    _callback.call(index);
+    _callback(index);
     start(); // Re-energize all columns
 }
 

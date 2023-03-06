@@ -25,7 +25,8 @@
 #define KEYPAD_H
 
 #include "mbed.h"
-#include "FPointer.h"
+#include <stdint.h>
+// #include "FPointer.h"
 
 /**
  * An interrupt-based interface to 4x4 keypad.
@@ -104,7 +105,7 @@ public:
      *  @param fptr           A function pointer takes a uint32_t and
      *                        returns uint32_t
      */
-    void attach(uint32_t (*fptr)(uint32_t));
+    void attach(mbed::Callback<void(uint32_t)>);
 
 protected:
     InterruptIn     *_rows[4];
@@ -112,7 +113,8 @@ protected:
     int              _debounce;  // miliseconds
     int              _nRow;
     int              _nCol;
-    FPointer         _callback; // Called after each input
+    // FPointer         _callback; // Called after each input
+    mbed::Callback<void(uint32_t)> _callback;
 
     void _checkIndex(int row, InterruptIn *therow);
     void _cbRow0Rise(void);
