@@ -26,6 +26,7 @@
 
 #include "mbed.h"
 #include <stdint.h>
+#include "mbed_events.h"
 // #include "FPointer.h"
 
 /**
@@ -85,7 +86,8 @@ public:
      *  @param col<0..3>     Column data lines
      *  @param debounce_ms   Debounce in ms (Default to 20ms)
      */
-    Keypad(PinName r0, PinName r1, PinName r2, PinName r3,
+    Keypad(EventQueue* queue,
+           PinName r0, PinName r1, PinName r2, PinName r3,
            PinName c0, PinName c1, PinName c2, PinName c3,
            int debounce_ms = 20);
 
@@ -122,6 +124,9 @@ protected:
     void _cbRow2Rise(void);
     void _cbRow3Rise(void);
     void _setupRiseTrigger(void);
+
+private:
+    EventQueue* queue;
 };
 
 #endif // KEYPAD_H
